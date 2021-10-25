@@ -4,14 +4,15 @@ import json
 wiki_url = 'https://ru.wikipedia.org/wiki/'
 
 
+
 class MyIterator:
 
     def __init__(self, path):
         with open('countries.json', 'r') as file:
             country_list = json.load(file)
-            for country in country_list:
-                name = country['name']['common']
-                self.iter = iter(name)
+            name = (country['name']['common'] for country in country_list)
+            self.iter = iter(name)
+
 
     def url_country(self, country_name: str):
         country_name = country_name.replace(' ', '_')
