@@ -1,8 +1,10 @@
 import hashlib
 import json
+from file_data import file_path, file_name
+from my_decor import logger
 
 wiki_url = 'https://ru.wikipedia.org/wiki/'
-
+result_link = 'counties_link.txt'
 
 
 class MyIterator:
@@ -12,7 +14,6 @@ class MyIterator:
             country_list = json.load(file)
             name = (country['name']['common'] for country in country_list)
             self.iter = iter(name)
-
 
     def url_country(self, country_name: str):
         country_name = country_name.replace(' ', '_')
@@ -28,7 +29,8 @@ class MyIterator:
         return result
 
 
-def hash(path: str):
+@logger(file_name, file_path)
+def hash_link(path: str):
     with open(path) as file:
         for line in file:
             yield hashlib.md5(line.encode()).hexdigest()
@@ -39,5 +41,5 @@ if __name__ == '__main__':
         for country_link in MyIterator('countries.json'):
             country_names_file.write(f'{country_link}\n')
 
-    for hash_str in hash('counties_link.txt'):
+    for hash_str in hash_link('counties_link.txt'):
         print(hash_str)
