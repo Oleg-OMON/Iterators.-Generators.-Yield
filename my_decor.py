@@ -28,6 +28,6 @@ def logger(file_name, file_path=None):
 
             return output
 
-        return result_func()
+        return result_func
 
     return log_func
